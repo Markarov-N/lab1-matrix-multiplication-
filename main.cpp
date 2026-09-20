@@ -9,8 +9,6 @@
 using namespace std;
 using namespace std::chrono;
 
-// Чтение матрицы из файла
-// Формат: первая строка — размер n, далее n строк по n чисел
 bool readMatrix(const string& filename, vector<vector<double>>& matrix, int& n) {
     ifstream fin(filename);
     if (!fin.is_open()) {
@@ -26,7 +24,6 @@ bool readMatrix(const string& filename, vector<vector<double>>& matrix, int& n) 
     return true;
 }
 
-// Запись матрицы в файл
 void writeMatrix(const string& filename, const vector<vector<double>>& matrix, int n) {
     ofstream fout(filename);
     fout << n << "\n";
@@ -41,7 +38,6 @@ void writeMatrix(const string& filename, const vector<vector<double>>& matrix, i
     fout.close();
 }
 
-// Умножение матриц: C = A * B
 void multiplyMatrices(const vector<vector<double>>& A,
     const vector<vector<double>>& B,
     vector<vector<double>>& C, int n) {
@@ -55,7 +51,6 @@ void multiplyMatrices(const vector<vector<double>>& A,
 }
 
 int main(int argc, char* argv[]) {
-    // Аргументы: main [файл_A] [файл_B] [файл_результата] [размер_для_бенчмарка]
     string fileA = "matrix_a.txt";
     string fileB = "matrix_b.txt";
     string fileOut = "result_cpp.txt";
@@ -70,7 +65,6 @@ int main(int argc, char* argv[]) {
         benchSize = stoi(argv[4]);
     }
 
-    // --- Основной режим: умножение двух матриц из файлов ---
     vector<vector<double>> A, B, C;
     int nA, nB;
 
@@ -85,15 +79,12 @@ int main(int argc, char* argv[]) {
     int n = nA;
 
     cout << "Размер матриц: " << n << " x " << n << endl;
-
-    // Замер времени
     auto start = high_resolution_clock::now();
     multiplyMatrices(A, B, C, n);
     auto end = high_resolution_clock::now();
 
     double timeSec = duration_cast<microseconds>(end - start).count() / 1e6;
 
-    // Статистика
     long long operations = 2LL * n * n * n; // умножение + сложение
     double gflops = (operations / 1e9) / timeSec;
     size_t memoryBytes = 3LL * n * n * sizeof(double); // A + B + C
@@ -107,7 +98,6 @@ int main(int argc, char* argv[]) {
     cout << "Производительность: " << setprecision(2) << gflops << " GFLOPS\n";
     cout << "Результат записан в: " << fileOut << endl;
 
-    // --- Бенчмарк: прогон на разных размерах ---
     if (benchSize > 0) {
         cout << "\n=== Бенчмарк ===" << endl;
         cout << "Size,Time_sec,GFLOPS,Memory_MB" << endl;
