@@ -1,0 +1,18 @@
+# Файлы компиляции
+*.exe
+*.obj
+*.pdb
+*.ilk
+
+# Временные файлы
+*.log
+*.tmp
+
+# Системные файлы
+.DS_Store
+Thumbs.db
+
+# Виртуальные окружения Python
+venv/
+__pycache__/
+*.pyc
